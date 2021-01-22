@@ -1,0 +1,76 @@
+{% extends 'layout/layout.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans 'Procesar Orden' %}
+{% endblock %}
+
+{% block content %}
+    <section class="bgwhite p-t-66 p-b-60">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 p-b-30">
+                    <div class="p-r-20 p-r-0-lg">
+                        <h5 class="m-text20 p-b-24">
+                            {% trans 'Orden' %}
+                        </h5>
+                        <form action="#" method="post" class="order-form">
+                            {{ form }}
+                            <div >
+                                <!-- Button -->
+                                <a href="{% url 'cart:cart_detail' %}" class="btn btn-danger">Cancelar</a>
+                                <input  class="btn btn-success" type="submit" id="pago" value="{% trans "Confirmar" %}">
+                            </div>
+                            {% csrf_token %}
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-6 p-b-30">
+                    <div class="bo9 w-size18 p-l-40 p-r-40 p-t-30 p-b-38 m-t-30 m-r-0 m-l-auto p-lr-15-sm">
+                        <h5 class="m-text20 p-b-24">
+                            {% trans 'Tu Orden' %}
+                        </h5>
+                        <!--  -->
+                        <div class="flex-w flex-sb-m p-t-26 p-b-30">
+                            <ul class="header-cart-wrapitem">
+                                {% for item in cart1%}
+
+                                    <li class="header-cart-item">
+                                        <div class="header-cart-item-img">
+                                            <img src="{{ item.product.images_set.first.get_image_url }}" alt="IMG">
+                                        </div>
+
+                                        <div class="header-cart-item-txt">
+                                            <a href="#" class="header-cart-item-name">
+                                                {{ itme.product.name }}
+                                            </a>
+
+                                            <span class="header-cart-item-info">
+											{{ item.quantity }} x ${{ item.product.price }}
+										</span>
+                                        </div>
+                                    </li>
+
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <span class="m-text21 w-size20 w-full-sm mb-4">
+                      Total:  ${{ total_cost.total }}
+					</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block js %}
+    <script >
+        $('#pago').click(function (e) {
+            var cliente = {{ cliente.id }}
+            $('#id_client').val(cliente);
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,17 @@
+
+
+
+<div class="pagination flex-m flex-w p-r-50">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}"class="item-pagination flex-c-m trans-0-4 active-pagination" ><i class="fa fa-arrow-circle-left"></i></a>
+    {% endif %}
+
+      {% if page_obj.has_next %}
+
+                <a class="" href="#">{{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</a>
+
+        {% endif %}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="item-pagination flex-c-m trans-0-4"><i class="fa fa-arrow-circle-right"></i></a>
+    {% endif %}
+</div>

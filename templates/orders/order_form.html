@@ -1,0 +1,287 @@
+{% extends 'layout/layout.html' %}
+{% block css %}
+    <style>
+        .hosted-field {
+            height: 50px;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            display: inline-block;
+            box-shadow: none;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 6px;
+            border: 1px solid #dddddd;
+            line-height: 20px;
+            background: #fcfcfc;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, white 50%, #fcfcfc 50%);
+            background-size: 200% 100%;
+            background-position: right bottom;
+            transition: all 300ms ease-in-out;
+        }
+
+        .hosted-fields--label {
+            font-family: courier, monospace;
+            text-transform: uppercase;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .button-container {
+            display: block;
+            text-align: center;
+        }
+
+        .button {
+            cursor: pointer;
+            font-weight: 500;
+            line-height: inherit;
+            position: relative;
+            text-decoration: none;
+            text-align: center;
+            border-style: solid;
+            border-width: 1px;
+            border-radius: 3px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            display: inline-block;
+        }
+
+        .button--small {
+            padding: 10px 20px;
+            font-size: 0.875rem;
+        }
+
+        .button--green {
+            outline: none;
+            background-color: #64d18a;
+            border-color: #64d18a;
+            color: white;
+            transition: all 200ms ease;
+        }
+
+        .button--green:hover {
+            background-color: #8bdda8;
+            color: white;
+        }
+
+        .braintree-hosted-fields-focused {
+            border: 1px solid #64d18a;
+            border-radius: 1px;
+            background-position: left bottom;
+        }
+
+        .braintree-hosted-fields-invalid {
+            border: 1px solid #ed574a;
+        }
+
+        .braintree-hosted-fields-valid {
+        }
+
+        #cardForm {
+            max-width: 30.75em;
+            margin: 0 auto;
+            padding: 1.875em;
+        }
+    </style>
+{% endblock %}
+{% block title %}
+    Mi Tienda
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Tarjeta </a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Paypal</a>
+                    <a class="btn btn-danger" href="{% url 'orders:orders.index' %}">Cancelar</a>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="demo-frame">
+                            <form action="."  id="cardForm" method="post" >
+                                {{ form }}
+                                <label class="hosted-fields--label" for="card-number">Numero Tarjeta</label>
+                                <div id="card-number" class="hosted-field"></div>
+
+                                <label class="hosted-fields--label" for="expiration-date">Fecha De Expiración</label>
+                                <div id="expiration-date" class="hosted-field"></div>
+
+                                <label class="hosted-fields--label" for="cvv">CVV</label>
+                                <div id="cvv" class="hosted-field"></div>
+
+
+
+                                <div class="button-container">
+                                    <input type="hidden" id="nonce" name="payment_method_nonce" value="">
+                                    {% csrf_token %}
+                                    <input type="submit" class="button button--small button--green" value="Pagar Ahora" id="submitBra"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6 p-b-30">
+                                    <div class="p-r-20 p-r-0-lg">
+                                        <h1 class="m-text20 p-b-24">
+                                            Paypal
+                                        </h1>
+
+                                        {{ form_paypal.render }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+    {% comment %} <script src="https://js.braintreegateway.com/web/3.56.0/js/client.min.js"></script>
+    <script src="https://js.braintreegateway.com/web/3.56.0/js/hosted-fields.min.js"></script>
+{% endcomment %}  <!-- Load the required client component. -->
+    <script src="https://js.braintreegateway.com/web/3.29.0/js/client.min.js"></script>
+    <!-- Load Hosted Fields component. -->
+    <script src="https://js.braintreegateway.com/web/3.29.0/js/hosted-fields.min.js"></script>
+
+
+    <script>
+        //paypal
+        var paypalForm = document.querySelector('form[action="https://www.sandbox.paypal.com/cgi-bin/webscr"]');
+        var boto = document.querySelector('input[type="image"]');
+
+        boto.removeAttribute('disabled');
+        paypalForm.addEventListener('submit',function (event) {
+            event.preventDefault();
+            var crsf= $('input[name="csrfmiddlewaretoken"]').val(),
+                cliente = $('#id_client').val(),
+                ruta= '';//window.location.href;//'order/payment/process/{{ object.pk }}/';
+                console.log(ruta);
+            $.ajax({
+                url:ruta,
+                method:'POST',
+                data:{
+                    'client':cliente,
+                    'csrfmiddlewaretoken':crsf,
+                },
+            }).done(function (data) {
+                if(data.resp == 'ok'){
+
+                    swal({title:"Ah Decidido Pagar Por Paypal!",
+                        text:"Valor a Pagar {{ object.get_total_cost }}",
+                        type:"success",
+                        confirmButtonClass: "btn-success"});
+                    paypalForm.submit();
+                }else{
+                    swal({title:"Ah Decidido Pagar Por Paypal!",
+                        text:"Valor a Pagar {{ object.get_total_cost }}",
+                        type:"success",
+                        confirmButtonClass: "btn-success"});
+                    window.location.href='.'
+                }
+            })
+        },false);
+
+
+        //braintreee
+        var form = document.querySelector('#cardForm');
+        var submit = document.querySelector('#submitBra');
+
+
+        var authorization = '{{ client_token }}';
+
+        $('input[type="image"]')
+
+
+
+        braintree.client.create({
+            authorization: authorization
+        }, function(err, clientInstance) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            createHostedFields(clientInstance);
+        });
+
+        function createHostedFields(clientInstance) {
+            braintree.hostedFields.create({
+                client: clientInstance,
+                styles: {
+                    'input': {
+                        'font-size': '16px',
+                        'font-family': 'courier, monospace',
+                        'font-weight': 'lighter',
+                        'color': '#ccc'
+                    },
+                    ':focus': {
+                        'color': 'black'
+                    },
+                    '.valid': {
+                        'color': '#8bdda8'
+                    }
+                },
+                fields: {
+                    number: {
+                        selector: '#card-number',
+                        placeholder: '4111 1111 1111 1111'
+                    },
+                    cvv: {
+                        selector: '#cvv',
+                        placeholder: '123'
+                    },
+                    expirationDate: {
+                        selector: '#expiration-date',
+                        placeholder: 'MM/YYYY'
+                    }
+                }
+            }, function (err, hostedFieldsInstance) {
+                {% comment %}  var teardown = function (event) {
+                      event.preventDefault();
+                      alert('Submit your nonce to your server here!');
+                      hostedFieldsInstance.teardown(function () {
+                          createHostedFields(clientInstance);
+                          form.removeEventListener('submit', teardown, false);
+                      });
+                  };{% endcomment %}
+
+                if(err){
+                    console.error(hostedFieldsInstance);
+                    return;
+                }
+                submit.removeAttribute('disabled');
+                form.addEventListener('submit',function (event) {
+                    event.preventDefault();
+                    swal({title:"Ah Decidido Con Tarjeta de Credito!",
+                        text:"Valor a Pagar {{ object.get_total_cost }}",
+                        type:"success",
+                        confirmButtonClass: "btn-success"});
+
+                    hostedFieldsInstance.tokenize(function (tokenizeErr,payload) {
+                        if (tokenizeErr){
+                            console.error(tokenizeErr);
+                            return;
+                        }
+                        document.getElementById('nonce').value = payload.nonce;
+
+                        $('#cardForm').submit();
+                    });
+
+                },false);
+
+
+                //form.addEventListener('submit', teardown, false);
+            });
+        }
+    </script>
+{% endblock %}

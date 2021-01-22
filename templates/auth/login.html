@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>SGS</title>
+
+    {#  CSS Block  #}
+    <link rel="stylesheet" href="{% static 'vendor/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bundle.css' %}">
+
+    {# Layout CSS #}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {# bootstrap 4 #}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+
+<body>
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
+            <div class="row flex-grow">
+                <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                    <div class="auth-form-transparent text-left p-3">
+                        <div class="row">
+                            <div class="brand-logo">
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="card" style="width: 25rem;">
+                            <div class="card-body">
+                                <div class="text-primary ml-2 mt-3">
+                                    <h1>Farmacia +Movil </h1>
+                                </div>
+                                <form class="pt-3 mb-5 mt-3" method="post">
+                                    <h4>¡Bienvenido de nuevo!</h4>
+                                    {% csrf_token %}
+
+                                    {% if form.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        {{ form.errors }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="form-group my-4">
+                                        <label for="exampleInputEmail" style="">Usuario</label>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend bg-transparent">
+                                                <div class="input-group-text bg-transparent border-right-0">
+                                                    <i class=" text-primary"></i>
+                                                </div>
+                                            </div>
+
+                                            <input type="text" class="form-control form-control-lg border-left-0"
+                                                   id="exampleInputEmail" placeholder="Username" name="username">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group my-4">
+                                        <label for="exampleInputPassword">Contraseña</label>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend bg-transparent">
+                                                <div class="input-group-text bg-transparent border-right-0">
+                                                    <i class=" text-primary"></i>
+                                                </div>
+                                            </div>
+
+                                            <input type="password" class="form-control form-control-lg border-left-0"
+                                                   id="exampleInputPassword" placeholder="Password" name="password">
+                                        </div>
+                                    </div>
+
+                                    <div class="my-5">
+                                        <button type="submit"
+                                                class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
+                                            Iniciar sesión
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="my-1">
+                                    <a href="{% url 'security:register'%}"
+                                       class="btn btn-block btn-info btn-lg font-weight-medium auth-form-btn">
+                                        <i class=""></i> Registrar Usuario
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="col-lg-6 login-half-bg d-flex flex-row">
+                    <p class="text-white font-weight-medium text-center flex-grow align-self-end">
+                        Copyright &copy; 2019 All rights reserved.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'js/bundle.js' %}"></script>
+<script src="{% static 'js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'js/layout.js' %}"></script>
+</body>
+
+</html>

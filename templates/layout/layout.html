@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>{% block title %}
+        FARMACIA MDJK
+    {% endblock %}</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'fashe-colorlib/images/icons/favicon.png'%}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/vendor/bootstrap/css/bootstrap.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/fonts/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/fonts/themify/themify-icons.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/fonts/Linearicons-Free-v1.0.0/icon-font.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/fonts/elegant-font/html-css/style.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/vendor/animate/animate.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/vendor/css-hamburgers/hamburgers.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/vendor/animsition/css/animsition.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/vendor/select2/select2.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/vendor/slick/slick.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/vendor/noui/nouislider.min.css'%}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/css/util.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'fashe-colorlib/css/main.css'%}">
+<!--===============================================================================================-->
+    {% block css %}
+
+    {% endblock %}
+</head>
+<body class="animsition">
+
+	<!-- Header -->
+	<header class="header1">
+    {% include 'layout/partials/_navbar.html' %}
+    </header>
+
+	<!-- Title Page -->
+	<section hidden class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(images/heading-pages-02.jpg);">
+		<h2 class="l-text2 t-center">
+			Women
+		</h2>
+		<p class="m-text13 t-center">
+			New Arrivals Women Collection 2018
+		</p>
+	</section>
+
+
+	<!-- Content page -->
+    {% block content %}
+
+    {% endblock %}
+	<!-- Footer -->
+	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
+            {% include 'layout/partials/_footer.html' %}
+	</footer>
+
+
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top bg0-hov" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
+		</span>
+	</div>
+
+	<!-- Container Selection -->
+	<div id="dropDownSelect1"></div>
+	<div id="dropDownSelect2"></div>
+
+
+
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/jquery/jquery-3.2.1.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/animsition/js/animsition.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/bootstrap/js/popper.js'%}"></script>
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/select2/select2.min.js'%}"></script>
+	<script type="text/javascript">
+		$(".selection-1").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+
+		$(".selection-2").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect2')
+		});
+	</script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/daterangepicker/moment.min.js'%}"></script>
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/daterangepicker/daterangepicker.js'%}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/slick/slick.min.js'%}"></script>
+	<script type="text/javascript" src="{% static  'fashe-colorlib/js/slick-custom.js'%}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/sweetalert/sweetalert.min.js'%}"></script>
+	<script type="text/javascript">
+
+
+{% comment %} 		$('.block2-btn-addwishlist').each(function(){
+			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+			$(this).on('click', function(){
+				swal(nameProduct, "is added to wishlist !", "success");
+			});
+		}); {% endcomment %}
+	</script>
+
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static  'fashe-colorlib/vendor/noui/nouislider.min.js'%}"></script>
+	<script type="text/javascript">
+		/*[ No ui ]
+	    ===========================================================*/
+	    var filterBar = document.getElementById('filter-bar');
+
+	    noUiSlider.create(filterBar, {
+	        start: [ 50, 200 ],
+	        connect: true,
+	        range: {
+	            'min': 50,
+	            'max': 200
+	        }
+	    });
+
+	    var skipValues = [
+	    document.getElementById('value-lower'),
+	    document.getElementById('value-upper')
+	    ];
+
+	    filterBar.noUiSlider.on('update', function( values, handle ) {
+	        skipValues[handle].innerHTML = Math.round(values[handle]) ;
+	    });
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static  'fashe-colorlib/js/main.js'%}"></script>
+    
+    {% block js %}
+
+    {% endblock %}
+</body>
+</html>

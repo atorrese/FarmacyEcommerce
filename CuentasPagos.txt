@@ -1,0 +1,8 @@
+tarjeta:
+	4111 1111 1111 1111
+	02/23
+	123
+
+paypal:
+	sb-9a6yd4594849@personal.example.com
+	WL6a9ts-

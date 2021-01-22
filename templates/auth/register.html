@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>SGS</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">#}
+    {#  CSS Block  #}
+    <link rel="stylesheet" href="{% static 'vendor/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bundle.css' %}">
+
+    {# Layout CSS #}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {# bootstrap 4 #}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 order-md-1 mb-2  ">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h1 class="m-4">Registrar Usuario</h1>
+                <a type="button" class="btn btn-info mr-4" href="{% url 'security:login' %}" >
+                    Cancelar
+                </a>
+            </div>
+            <form action="{% url 'security:register' %}" id="register-form" class="needs-validation bg-light align-content-center m-2 p-2" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <div class="row m-2 p-3">
+                    {% for field in form %}
+                        <div class="col-md-6 mb-2">
+                             <label class="control-label">{{ field.label }}</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                     <span class="input-group-text"><i class="glyphicon glyphicon-envelope"></i></span>
+                                </div>
+                                {{ field}}
+                            </div>
+
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Registrarse">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/bundle.js' %}"></script>
+<script src="{% static 'js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'js/layout.js' %}"></script>
+
+{#<script src="{% static 'js/bootstrap.min.js' %}"></script>#}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+
+<script>
+    $('#id_country').change(
+        function () {
+            $('#id_province').attr('disabled','disabled');
+            $('#id_canton').attr('disabled','disabled');
+            if($('#id_country').val()!= ''){
+            $('#id_province').attr('disabled','disabled');
+            $('#id_canton').attr('disabled','disabled');
+           var   crsf= $('input[name="csrfmiddlewaretoken"]').val() ,
+               id= $('#id_country').val();
+
+                    $.ajax({
+                    url:'{% url 'security:register' %}',
+                    method:'GET',
+                    data:{
+                        'p':id,
+                        'csrfmiddlewaretoken':crsf,
+                    },
+                }).done(function (data) {
+                    if(data.resp == 'ok'){
+                        console.log(data.data);
+                        $('#id_province').removeAttr('disabled');
+                        $('#id_province').empty();
+                        $('#id_province').append('<option value="" selected="">---------</option>');
+                        data.data.forEach(function (elemento,k) {
+                            $('#id_province').append($('<option>',{value:elemento.id,text:elemento.name}))
+                        });
+                      }else{
+                        $('#id_province').append('<option value="" selected="">No Existan Provincias</option>')
+                    }
+                });
+            }
+        }
+    );
+     $('#id_province').change(
+        function () {
+            $('#id_canton').attr('disabled','disabled');
+           var   crsf= $('input[name="csrfmiddlewaretoken"]').val() ,
+               id= $('#id_province').val();
+
+                    $.ajax({
+                    url:'{% url 'security:register' %}',
+                    method:'GET',
+                    data:{
+                        'pro':id,
+                        'csrfmiddlewaretoken':crsf,
+                    },
+                }).done(function (data) {
+                    if(data.resp == 'ok'){
+                        console.log(data.data);
+                        $('#id_canton').removeAttr('disabled');
+                        $('#id_canton').empty();
+                        $('#id_canton').append('<option value="" selected="">---------</option>');
+                        data.data.forEach(function (elemento,k) {
+                            $('#id_canton').append($('<option>',{value:elemento.id,text:elemento.name}))
+                        });
+                    }else{
+                        $('#id_canton').append('<option value="" selected="">No Existan Provincias</option>')
+                    }
+                });
+        }
+    );
+
+    $(document).ready(function () {
+        $('#id_province').attr('disabled','disabled');
+        $('#id_canton').attr('disabled','disabled');
+        $('#register-form').bootstrapValidator({
+            feedbackIcons:{
+                valid:'glyphicon glyphicon-ok',
+                invalid:'glyphicon glyphicon-remove',
+                validating:'glyphicon glyphicon-refresh',
+            },
+            fields:{
+                first_name:{
+                    validators:{
+                        stringLenth:{
+                            min: 2,
+                        },
+                        notEmpty:{
+                            message:'Por favor reesriba su Nombre'
+                        }
+                    }
+                }
+            }
+
+        });
+    });
+
+
+</script>
+</body>
+</html>

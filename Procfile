@@ -1,0 +1,1 @@
+web: gunicorn FarmacyEcommerce.wsgi --log-file -

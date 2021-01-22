@@ -1,0 +1,267 @@
+{% extends 'layout/layout.html'%}
+
+{% load static %}
+
+{% block content %}
+	<section class="bgwhite p-t-55 p-b-65">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
+					<div class="leftbar p-r-20 p-r-0-sm">
+                    	<div class="search-product pos-relative bo4 of-hidden">
+								{% include 'index/partials/_filters.html' %}
+						</div>
+        
+						<!--  -->
+                        <br>
+                        <br>
+						<h4 class="m-text14 p-b-7">
+							Categorias
+						</h4>
+
+						<ul class="p-b-54">
+                            {% for category in categories %}
+                                <li class="p-t-4"><p class="text-black"> *
+
+                                    <a href="/?search={{ category.name }}" class="s-text13">
+                                        {{ category.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+						</ul>
+
+						<!--  -->
+{% comment %} 						<h4 class="m-text14 p-b-32">
+							Filters
+						</h4>
+
+						<div class="filter-price p-t-22 p-b-50 bo3">
+							<div class="m-text15 p-b-17">
+								Price
+							</div>
+
+							<div class="wra-filter-bar">
+								<div id="filter-bar"></div>
+							</div>
+
+							<div class="flex-sb-m flex-w p-t-16">
+								<div class="w-size11">
+									<!-- Button -->
+									<button class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4">
+										Filter
+									</button>
+								</div>
+
+								<div class="s-text3 p-t-10 p-b-10">
+									Range: $<span id="value-lower">610</span> - $<span id="value-upper">980</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="filter-color p-t-22 p-b-50 bo3">
+							<div class="m-text15 p-b-12">
+								Color
+							</div>
+
+							<ul class="flex-w">
+								<li class="m-r-10">
+									<input class="checkbox-color-filter" id="color-filter1" type="checkbox" name="color-filter1">
+									<label class="color-filter color-filter1" for="color-filter1"></label>
+								</li>
+
+								<li class="m-r-10">
+									<input class="checkbox-color-filter" id="color-filter2" type="checkbox" name="color-filter2">
+									<label class="color-filter color-filter2" for="color-filter2"></label>
+								</li>
+
+								<li class="m-r-10">
+									<input class="checkbox-color-filter" id="color-filter3" type="checkbox" name="color-filter3">
+									<label class="color-filter color-filter3" for="color-filter3"></label>
+								</li>
+
+								<li class="m-r-10">
+									<input class="checkbox-color-filter" id="color-filter4" type="checkbox" name="color-filter4">
+									<label class="color-filter color-filter4" for="color-filter4"></label>
+								</li>
+
+								<li class="m-r-10">
+									<input class="checkbox-color-filter" id="color-filter5" type="checkbox" name="color-filter5">
+									<label class="color-filter color-filter5" for="color-filter5"></label>
+								</li>
+
+								<li class="m-r-10">
+									<input class="checkbox-color-filter" id="color-filter6" type="checkbox" name="color-filter6">
+									<label class="color-filter color-filter6" for="color-filter6"></label>
+								</li>
+
+								<li class="m-r-10">
+									<input class="checkbox-color-filter" id="color-filter7" type="checkbox" name="color-filter7">
+									<label class="color-filter color-filter7" for="color-filter7"></label>
+								</li>
+							</ul>
+						</div> {% endcomment %}
+
+
+					</div>
+				</div>
+
+				<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+					<!--  -->
+					<div class="flex-sb-m flex-w p-b-35">
+						<div class="flex-w">
+							<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+								<select  url={% url 'security:home' %} class="search-mark selection-2" name="search-mark" placeholder="Marca">
+                                    <option  >Marcas</option>
+									{% for mark in marks %}
+                                       <option value={{mark.id}} {% if mark.id == s_mark %}selected{% endif %} >{{mark.name}}</option>
+                
+									{% endfor %}
+								</select>
+							</div>
+
+							<div class=" rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+								<select url={% url 'security:home' %} id="s_precio" class="selection-2" name="sorting">
+									<option>Price</option>
+									<option>$0.00 - $50.00</option>
+									<option>$50.00 - $100.00</option>
+									<option>$100.00 - $150.00</option>
+									<option>$150.00 - $200.00</option>
+									<option>$200.00+</option>
+
+								</select>
+							</div>
+						</div>
+
+						<span class="s-text8 p-t-5 p-b-5">
+								Mostrando {{ page_obj.number }}- {{ page_obj.paginator.num_pages }}de {{ page_obj.count }} resultados
+						</span>
+					</div>
+
+					<!-- Product -->
+					<div class="row">
+
+                        {% for product in products%}
+                        <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+							<!-- Block2 -->
+							<div class="block2">
+								<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+									<img src="{{product.get_url_image}}" alt="IMG-PRODUCT">
+
+									<div class="block2-overlay trans-0-4">
+{% comment %} 										<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+											<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+											<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+										</a> {% endcomment %}
+
+										<div class="block2-btn-addcart w-size1 trans-0-4">
+											<!-- Button -->
+											<button product-id={{product.pk}}  url="{% url "cart:cart_add" %}" class="add-cart  flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+												Agregar <i class="fa fa-cart-plus" aria-hidden="true"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+
+								<div class="block2-txt p-t-20">
+									<a href="{% url 'catalog:product.detail'  pk=product.id  %}" class="block2-name dis-block s-text3 p-b-5">
+										{{product.name}}
+									</a>
+
+									<span class="block2-price m-text6 p-r-5">
+										${{product.price}}
+									</span>
+								</div>
+							</div>
+						</div>
+                        {% endfor%}
+						{% csrf_token %} 
+					</div>
+
+					<!-- Pagination -->
+						{% include 'shared/_pagination.html' %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<button hidden type="button" class="btn btn-primary btn-stock" data-toggle="modal" data-target="#exampleModalCenter" >
+	
+	</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Productos Bajo stock</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <table class="table table-hover table-bordered" id="table-detalle">
+                        <thead>
+                        <tr>
+                            <th>Productos</th>
+                            <th>Stock</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+							{% for product  in down_stock %}
+								<th>{{product.name}}</th>
+								<th><span class="badge badge-warning">{{product.stock}}</span></th>
+							{% endfor %}
+                        </tbody>
+                    </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+$('.add-cart').on('click',function(){
+	var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+	cantidad=1;
+	token= $('input[name="csrfmiddlewaretoken"]').val();
+	url=$(this).attr('url');
+	product=$(this).attr('product-id');
+	//alert(`${cantidad} toquen: ${token} url: ${url} product: ${product} `);
+	$.post(url,{'quantity':cantidad,'csrfmiddlewaretoken':token,'product':product})
+	.then((data)=>{
+		swal(data.nameProduct, "Se Agrego al Carrito!", "success");
+		location.reload();
+	})
+	.catch((err)=>{
+		alert(err);
+	});
+});
+$('.search-mark').change(function(){
+	id=$(this).val()
+	url=$(this).attr('url');
+	url +=`?s_mark=${id}`;
+	location.href = url;
+});
+
+$('#s_precio').change(function(){
+	cadena= $(this).val();
+	cadena = cadena.split('-'); 
+
+	start = cadena[0].replace('$','')
+	start = start.replace(' ','')
+
+	end = cadena[1].replace('$','')
+	end = end.replace(' ','')
+	url=$(this).attr('url');
+	url +=`?s_price_i=${start}&s_price_f=${end}`;
+	location.href = url;
+});
+{% if user.is_superuser  and down_stock %}
+	$('.btn-stock').click();
+{% endif %}
+
+</script>	
+{% endblock  %}

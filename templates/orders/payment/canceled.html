@@ -1,0 +1,36 @@
+{% extends "layout/layout.html" %}
+{% block content %}
+
+    <section class="cart bgwhite p-t-70 p-b-100">
+        <div class="container">
+            <!-- Cart item -->
+            <div class="container-table-cart pos-relative">
+                <div class="wrap-table-shopping-cart bg-warning">
+                    <table class="table-shopping-cart">
+                        <tbody>
+                        <tr class="table-row">
+                            <td align="center" style="font-size: 1cm;">
+                                Ocurrio Un Error al Realizar el Pago
+                            </td>
+                        {{ dataError.message }}
+                            {% if dataError %}
+                                <div class="card" style="width: 15rem;">
+                                    <div class="card-head">
+                                        {{ dataError.error }}
+                                    </div>
+                                    <div class="card-body">
+                                        {{ dataError.message}}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}
