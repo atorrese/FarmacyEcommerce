@@ -90,3 +90,6 @@ class Images(ModelBase):
     def get_image_url(self):
         return  self.url.url
 
+    def get_image(self):
+        return  mark_safe('<img src="{}" style="width:20%" style="border-radius: 8px;"'.format(self.url.url))
+

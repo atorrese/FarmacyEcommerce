@@ -30,7 +30,16 @@ class PresentationResource(resources.ModelResource):
 class PresentationAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     search_fields = ['name']
     list_display = ('name',)
-    resource_class = MarkResource
+    resource_class = PresentationResource
+
+class ImagesResource(resources.ModelResource):
+    class Meta:
+        model =Images
+
+class ImagesAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    search_fields = ['name']
+    list_display = ('name','product','get_image',)
+    resource_class = ImagesResource
 
 # Product        
 class ProductResource(resources.ModelResource):
@@ -40,7 +49,7 @@ class ProductResource(resources.ModelResource):
 class ProductImageInline(admin.TabularInline):
     model= Images
     extra=3
-    
+
 
 class ProductAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name','description','price',]
@@ -55,4 +64,4 @@ admin.site.register(Category,CategoryAdmin)
 admin.site.register(Presentation,PresentationAdmin)
 admin.site.register(Mark,MarkAdmin)
 admin.site.register(Product,ProductAdmin)
-admin.site.register(Images)
+admin.site.register(Images,ImagesAdmin)

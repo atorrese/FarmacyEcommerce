@@ -48,6 +48,16 @@ class OrderAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     inlines=  [DetailOrderInline,]
     resources= OrderResource
 
+
+class OrderDetailResource(resources.ModelResource):
+    class Meta:
+        model =OrderDetail
+
+class OrderDetailAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    search_fields = ['product']
+    list_display = ('order','product','price','quantity',)
+    resource_class = OrderDetailResource
+
 admin.site.register(Order,OrderAdmin)
-admin.site.register(OrderDetail)
+admin.site.register(OrderDetail,OrderDetailAdmin)
 admin.site.register(Client,ClientAdmin)
